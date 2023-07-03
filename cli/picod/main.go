@@ -39,7 +39,7 @@ func main() {
 }
 
 // Start the server and handle shutdown on exit signals
-func graceful(t server.Server) {
+func graceful(t *server.Server) {
 	wait := time.Second * 10
 	sigs := make(chan os.Signal, 1)
 	ssigs := make(chan error, 1)

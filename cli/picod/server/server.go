@@ -8,20 +8,15 @@ import (
 	"github.com/panjf2000/ants/v2"
 )
 
-type Server interface {
-	Start() error
-	Stop(ctx context.Context) error
-}
-
-type server struct {
+type Server struct {
 	tp *ants.Pool
 }
 
-func NewServer() Server {
-	return &server{}
+func NewServer() *Server {
+	return &Server{}
 }
 
-func (s *server) Start() error {
+func (s *Server) Start() error {
 	log.Printf("initializing thread pool")
 	tp, err := ants.NewPool(
 		100,
@@ -38,7 +33,7 @@ func (s *server) Start() error {
 	return nil
 }
 
-func (s *server) Stop(ctx context.Context) error {
+func (s *Server) Stop(ctx context.Context) error {
 	log.Println("releasing thread pool")
 	dl, ok := ctx.Deadline()
 	if !ok {
