@@ -5,6 +5,6 @@ import (
 )
 
 // Create a new thread/Goroutine pool
-func NewThreadPool(numThreads int, opts ants.Option) (*ants.Pool, error) {
-	return ants.NewPool(numThreads, opts)
+func NewThreadPool(numThreads int, opts ...ants.Option) (*ants.Pool, error) {
+	return ants.NewPool(numThreads, opts...)
 }
