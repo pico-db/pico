@@ -50,29 +50,33 @@ func Copy(m map[string]interface{}) map[string]interface{} {
 // Finds a field inside the map, provided that the key k is formatted as following:
 //   - For a first-level key: "key"
 //   - For a key inside nested maps: "key.key1.key2"
-func Lookup(m map[string]interface{}, k string) (map[string]interface{}, interface{}, string) {
+func Lookup(provided map[string]interface{}, k string, toNearestParent bool) (map[string]interface{}, interface{}, string) {
 	splitted := strings.Split(k, ".")
 	var exists bool
-	var f interface{}
-	cp := m
+	var currentValue interface{}
+	currentMap := provided
 	for ind, subfield := range splitted {
-		f, exists = cp[subfield]
+		currentValue, exists = currentMap[subfield]
+		m, isMap := currentValue.(map[string]interface{})
+		if toNearestParent {
+			if (!exists || !isMap) && ind < len(splitted)-1 {
+				m := make(map[string]interface{})
+				currentMap[subfield] = m
+				currentValue = m
+				currentMap = m
+				continue
+			}
+		}
 		if !exists {
 			return nil, nil, ""
 		}
 		// if not the last field
 		if ind < len(splitted)-1 {
-			m, isMap := f.(map[string]interface{})
-			if isMap {
-				cp = m
-			} else {
-				// more fields than the map has
-				return nil, nil, ""
-			}
+			currentMap = m
 		}
 	}
 	// the map at which the last key is inside
 	// the value
 	// the last key
-	return cp, f, splitted[len(splitted)-1]
+	return currentMap, currentValue, splitted[len(splitted)-1]
 }
