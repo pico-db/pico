@@ -30,7 +30,7 @@ type Transaction interface {
 	// This is crucial for changes to be made into the database
 	Commit() error
 
-	// Rollback, cancel the transaction
+	// Rollback, cancel the transaction. It's okay to be called after the commit
 	Rollback() error
 }
 
