@@ -87,7 +87,7 @@ func (db *DB) hasCollection(name string, tx store.Transaction) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	exists := utils.NotNil(v)
+	exists := (v != nil)
 	return exists, nil
 }
 

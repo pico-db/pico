@@ -12,14 +12,14 @@ import (
 //
 // i.e int64 to int, or structs to maps
 func Normalize(v interface{}) (interface{}, error) {
-	if IsNil(v) {
+	if v == nil {
 		return nil, nil
 	}
 	val, yes := v.(encoding.BinaryMarshaler)
 	if yes {
 		return val, nil
 	}
-	vv, vt := getValueAndType(v)
+	vv, vt := GetValueAndType(v)
 	if vt.Kind() == reflect.Ptr {
 		return nil, nil
 	}
@@ -187,7 +187,7 @@ func normalizeStruct(v reflect.Value) (map[string]interface{}, error) {
 		val := v.Field(i)
 		if typ.PkgPath == "" {
 			picoTag := typ.Tag.Get("pson")
-			key, omitempty := processTag(picoTag)
+			key, omitempty := ProcessTag(picoTag)
 			if len(key) == 0 {
 				key = typ.Name
 			}
@@ -219,7 +219,7 @@ func normalizeStruct(v reflect.Value) (map[string]interface{}, error) {
 
 // Process the struct tag and return both the first value (key to use in document) and either to omitempty the
 // field associated with the tag
-func processTag(tag string) (string, bool) {
+func ProcessTag(tag string) (string, bool) {
 	ts := strings.Split(tag, ",")
 	// `pson:""` -> ts = {""}, len(1)
 	key := ts[0]
@@ -255,7 +255,7 @@ func isZeroValued(v reflect.Value) bool {
 
 // Get the underlying value of v even if it is a pointer.
 // Returns nil and type of kind reflect.Ptr if it is nil pointer
-func getValueAndType(v interface{}) (reflect.Value, reflect.Type) {
+func GetValueAndType(v interface{}) (reflect.Value, reflect.Type) {
 	rv := reflect.ValueOf(v)
 	rt := reflect.TypeOf(v)
 	for rt.Kind() == reflect.Ptr && !rv.IsNil() {

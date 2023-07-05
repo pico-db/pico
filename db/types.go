@@ -10,6 +10,7 @@ var (
 	ErrCollectionExists = errors.New("collection already exists")
 	ErrIdNotFound       = errors.New("field not found")
 	ErrInvalidId        = errors.New("invalid id type")
+	ErrUnmarshallable   = errors.New("provided object is not a map or a struct")
 )
 
 const (

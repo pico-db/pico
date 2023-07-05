@@ -5,7 +5,9 @@ go 1.20
 require (
 	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/panjf2000/ants/v2 v2.7.5
+	github.com/satori/go.uuid v1.2.0
 	github.com/spaolacci/murmur3 v1.1.0
+	github.com/vmihailenco/msgpack/v5 v5.3.5
 )
 
 require (
@@ -21,6 +23,7 @@ require (
 	github.com/google/flatbuffers v1.12.1 // indirect
 	github.com/klauspost/compress v1.12.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	go.opencensus.io v0.22.5 // indirect
 	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
 	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
