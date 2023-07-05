@@ -195,7 +195,7 @@ func normalizeStruct(v reflect.Value) (map[string]interface{}, error) {
 			if isZero && omitempty {
 				continue
 			}
-			normal, err := Normalize(val)
+			normal, err := Normalize(val.Interface())
 			if err != nil {
 				return nil, err
 			}

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -149,6 +150,11 @@ func (d *Document) Unmarshal(to interface{}) error {
 	return d.unmarshal(to)
 }
 
+// Returns the document as a JSON string
+func (d *Document) Json() (string, error) {
+	return d.json()
+}
+
 func (d *Document) marshal(from interface{}) error {
 	doc, isDoc := from.(*Document)
 	if isDoc {
@@ -165,6 +171,14 @@ func (d *Document) marshal(from interface{}) error {
 	}
 	d.fields = mapped
 	return nil
+}
+
+func (d *Document) json() (string, error) {
+	bs, err := json.Marshal(d.fields)
+	if err != nil {
+		return "", err
+	}
+	return string(bs), nil
 }
 
 func (d *Document) unmarshal(to interface{}) error {

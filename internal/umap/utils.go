@@ -68,11 +68,8 @@ func Lookup(provided map[string]interface{}, k string, toNearestParent bool) (ma
 				m := make(map[string]interface{})
 				currentMap[subfield] = m
 				currentValue = m
-				currentMap = m
-				continue
 			}
-		}
-		if !exists {
+		} else if !exists {
 			return nil, nil, ""
 		}
 		// if not the last field
@@ -112,7 +109,7 @@ func Unmarshal(m map[string]interface{}, to interface{}) error {
 func renameKeysRec(m map[string]interface{}, typ interface{}) map[string]interface{} {
 	rv, rt := utils.GetValueAndType(typ)
 	if rt.Kind() != reflect.Struct {
-		return nil
+		return m
 	}
 	// after renaming, the map's key is the name of the struct field
 	// or the key from m
